@@ -19,9 +19,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Start Containers
-        run: docker compose up -d --build
-
       - name: Run Tests
         run: docker compose exec -T app sh -c "python manage.py test || exit 0"
 
