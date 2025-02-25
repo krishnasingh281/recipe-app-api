@@ -1,27 +1,30 @@
 FROM python:3.9-alpine3.13
 LABEL maintainer="local.com"
 
-ENV PYTHONUNBUFFERED = 1
+ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app
+
 WORKDIR /app
 EXPOSE 8000
 
 ARG DEV=false
+
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    apk add --update --no-cache mysql-client mariadb-connector-c-dev && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base mariadb-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
-    if [ $DEV = "true" ]; \
+    if [ "$DEV" = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
-    adduser \
-        --disabled-password \
-        --no-create-home \
-        django-user
+    apk del .tmp-build-deps && \
+    adduser --disabled-password --no-create-home appuser
 
-ENV PATH="/py/bin:$PATH"
+USER appuser
 
-USER django-user
+CMD ["/py/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
