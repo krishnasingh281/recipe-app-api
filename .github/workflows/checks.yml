@@ -25,11 +25,11 @@ jobs:
       - name: Check Container Status
         run: docker compose ps
       
-      - name: Check Container Logs
-        run: docker compose logs app
+      - name: Wait for containers to be ready
+        run: sleep 15
       
       - name: Run Tests
-        run: docker compose exec -T app sh -c "python manage.py test"
+        run: docker compose exec -T app python manage.py test
       
       - name: Run Linter
-        run: docker compose exec -T app sh -c "flake8"
+        run: docker compose exec -T app flake8
