@@ -22,6 +22,12 @@ jobs:
       - name: Build and Start Containers
         run: docker compose up -d --build
       
+      - name: Check Container Status
+        run: docker compose ps
+      
+      - name: Check Container Logs
+        run: docker compose logs app
+      
       - name: Run Tests
         run: docker compose exec -T app sh -c "python manage.py test"
       
