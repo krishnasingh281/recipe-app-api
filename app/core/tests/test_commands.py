@@ -31,8 +31,8 @@ class CommandTests(SimpleTestCase):
     def test_wait_for_db_delay(self, patched_ensure_connection, patched_sleep):
         """Test wait_for_db retries on database connection errors."""
         # Set up side effects - first 5 calls raise an error, 6th succeeds
-        patched_ensure_connection.side_effect = [
-            OperationalError] * 2 + [MySQLOpError] * 3 + [None]
+        patched_ensure_connection.side_effect = [MySQLOpError] * 2 + \
+            [OperationalError] * 3 + [True]
 
         call_command('wait_for_db')
 
