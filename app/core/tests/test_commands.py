@@ -37,3 +37,4 @@ class CommandTests(SimpleTestCase):
         call_command('wait_for_db')
 
         self.assertEqual(patched_ensure_connection.call_count, 6)
+        
