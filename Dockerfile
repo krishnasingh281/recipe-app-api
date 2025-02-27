@@ -25,9 +25,10 @@ RUN python -m venv /py && \
     apk del .tmp-build-deps && \
     adduser --disabled-password --no-create-home appuser
 
-# Add this line to make sure the Python virtual environment is in PATH
+# Make sure sh is available and in PATH
 ENV PATH="/py/bin:$PATH"
 
 USER appuser
 
+# Use full path to Python binary
 CMD ["/py/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
