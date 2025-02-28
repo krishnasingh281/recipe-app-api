@@ -30,11 +30,10 @@ class CommandTests(SimpleTestCase):
     @patch('django.db.connection.ensure_connection')
     def test_wait_for_db_delay(self, patched_ensure_connection, patched_sleep):
         """Test wait_for_db retries on database connection errors."""
-        # Set up side effects - first 5 calls raise an error, 6th succeeds
-        patched_ensure_connection.side_effect = [MySQLOpError] * 2 + \
-            [OperationalError] * 3 + [True]
+        # Set up side effects - first 5 calls raise error, 6th succeeds
+        patched_ensure_connection.side_effect = [OperationalError] * 2 + \
+            [MySQLOpError] * 3 + [None]
 
         call_command('wait_for_db')
 
         self.assertEqual(patched_ensure_connection.call_count, 6)
-        
