@@ -18,7 +18,8 @@ class CommandTests(SimpleTestCase):
 
     @patch('django.db.connection.ensure_connection')
     def test_wait_for_db_ready(self, patched_ensure_connection):
-        """Test that the wait_for_db command proceeds if the database is ready."""
+        """Test that the wait_for_db command proceeds 
+        if the database is ready."""
         # Set up the mock to return immediately
         patched_ensure_connection.return_value = None
 
