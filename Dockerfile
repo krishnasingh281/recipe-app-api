@@ -25,6 +25,7 @@ RUN python -m venv /py && \
     apk del .tmp-build-deps && \
     # Make sure we have a shell available
     apk add --no-cache bash && \
+    ln -sf /bin/bash /bin/sh && \
     adduser --disabled-password --no-create-home appuser
 
 # Add Python venv to PATH
@@ -32,5 +33,5 @@ ENV PATH="/py/bin:$PATH"
 
 USER appuser
 
-# Change to use bash instead of sh
+# Fix the CMD line to use proper format
 CMD ["/py/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
