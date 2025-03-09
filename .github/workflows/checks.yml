@@ -19,6 +19,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
+      - name: Create MySQL init script
+        run: |
+          echo "GRANT ALL PRIVILEGES ON *.* TO 'devuser'@'%'; FLUSH PRIVILEGES;" > init.sql
+      
       - name: Build and Start Containers
         run: docker compose up -d --build
       
@@ -27,6 +31,9 @@ jobs:
       
       - name: Wait for containers to be ready
         run: sleep 15
+      
+      - name: Grant database permissions
+        run: docker compose exec -T db mysql -u root -prootpassword -e "GRANT ALL PRIVILEGES ON *.* TO 'devuser'@'%'; FLUSH PRIVILEGES;"
       
       - name: Run Tests
         run: docker compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
