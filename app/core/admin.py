@@ -33,9 +33,9 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('email',
-                       'password1', 
+                       'password1',
                        'password2',
-                       'name', 
+                       'name',
                        'is_superuser',
                        'is_staff',
                        'is_active'),
