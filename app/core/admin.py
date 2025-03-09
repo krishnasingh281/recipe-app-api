@@ -1,4 +1,3 @@
-from django.contrib import admin  # noqa
 """
 Django admin customization.
 """
@@ -33,7 +32,13 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'name', 'is_superuser', 'is_staff', 'is_active'),
+            'fields': ('email',
+                       'password1', 
+                       'password2',
+                       'name', 
+                       'is_superuser',
+                       'is_staff',
+                       'is_active'),
         }),
     )
 
