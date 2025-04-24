@@ -23,7 +23,6 @@ RUN python -m venv /py && \
     fi && \
     rm -rf /tmp && \
     apk del .tmp-build-deps && \
-    # Make sure we have a shell available
     apk add --no-cache bash && \
     ln -sf /bin/bash /bin/sh && \
     adduser --disabled-password --no-create-home appuser
